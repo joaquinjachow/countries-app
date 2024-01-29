@@ -3,23 +3,39 @@ const mongoose = require('mongoose')
 const countrySchema = mongoose.Schema({
   name: {
     type: String,
-    required: true,
-    allowNull: false
+    require: true
   },
-  dificulty: {
-    type: Number
+  id: {
+    type: String,
+    require: true,
+    unique: true
   },
-  duration: {
+  flag: {
+    type: String,
+    require: true
+  },
+  continent: {
+    type: String,
+    require: true
+  },
+  capital: {
+    type: String,
+    require: false
+  },
+  subregion: {
     type: String
   },
-  season: {
-    type: String,
-    enum: ['summer', 'autumn', 'winter', 'spring']
+  area: {
+    type: Number
+  },
+  population: {
+    type: Number,
+    require: true // agregado por mi
   },
   createdInDb: {
     type: Boolean,
-    default: true,
-    allowNull: false
+    require: true,
+    default: true
   }
 })
 
