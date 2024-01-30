@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const ActivitySchema = mongoose.Schema({
   name: {
     type: String,
-    allowNull: false
+    require: true
   },
   dificulty: {
     type: Number
@@ -18,7 +18,7 @@ const ActivitySchema = mongoose.Schema({
   createdInDb: {
     type: Boolean,
     default: true,
-    allowNull: false
+    require: true
   }
 })
 
