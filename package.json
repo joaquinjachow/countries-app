@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"npm run start-mongo\" \"npm run start-next\"",
-    "start-mongo": "nodemon src/server/mongo/index.js",
+    "start-mongo": "nodemon src/server/app.js",
     "start-next": "next dev",
     "build": "next build",
     "lint": "next lint"
