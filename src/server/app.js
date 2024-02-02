@@ -1,7 +1,6 @@
 const express = require('express')
-const mongoose = require('mongoose')
+const { conn } = require('./db')
 const routes = require('./routes/index.js')
-require('./db.js')
 
 const server = express()
 server.name = 'API'
@@ -18,9 +17,6 @@ server.use((req, res, next) => {
 // Middleware
 server.use(express.json())
 
-// Rutas
-server.use('/', routes)
-
 // Manejo de errores
 server.use((err, req, res, next) => {
   const status = err.status || 500
@@ -29,14 +25,14 @@ server.use((err, req, res, next) => {
   res.status(status).send(message)
 })
 
+// Rutas
+server.use('/', routes)
+
+// Levantado del servidor
 const port = process.env.PORT || 9000
-
-// Conexión a MongoDB y escucha del servidor
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDb Atlas'))
-  .catch((error) => console.error(error))
-
-server.listen(port, () => console.log('Server listening on port', port))
+conn.once('open', () => {
+  console.log('Connected to MongoDb Atlas')
+  server.listen(port, () => console.log('Server listening on port', port))
+})
 
 module.exports = server
