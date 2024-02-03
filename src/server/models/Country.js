@@ -3,24 +3,24 @@ const mongoose = require('mongoose')
 const countrySchema = mongoose.Schema({
   name: {
     type: String,
-    require: true
+    required: true
   },
   id: {
     type: String,
-    require: true,
+    required: true,
     unique: true
   },
   flag: {
     type: String,
-    require: true
+    required: true
   },
   continent: {
     type: String,
-    require: true
+    required: true
   },
   capital: {
     type: String,
-    require: false
+    required: true
   },
   subregion: {
     type: String
@@ -30,11 +30,11 @@ const countrySchema = mongoose.Schema({
   },
   population: {
     type: Number,
-    require: true // agregado por mi
+    required: true // agregado por mi
   },
   createdInDb: {
     type: Boolean,
-    require: true,
+    required: true,
     default: true
   }
 })
