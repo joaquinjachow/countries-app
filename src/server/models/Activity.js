@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const ActivitySchema = mongoose.Schema({
   name: {
     type: String,
-    require: true
+    required: true
   },
   dificulty: {
     type: Number
@@ -18,8 +18,9 @@ const ActivitySchema = mongoose.Schema({
   createdInDb: {
     type: Boolean,
     default: true,
-    require: true
-  }
+    required: true
+  },
+  countries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Country' }]
 })
 
 module.exports = mongoose.model('Activity', ActivitySchema)
