@@ -1,4 +1,3 @@
-// routes/countries.js
 const { Router } = require('express')
 const { getCountries } = require('../controllers/countryController')
 

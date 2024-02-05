@@ -31,7 +31,6 @@ server.use('/', routes)
 // Levantado del servidor
 const port = process.env.PORT || 9000
 conn.once('open', () => {
-  console.log('Connected to MongoDb Atlas')
   server.listen(port, () => console.log('Server listening on port', port))
 })
 

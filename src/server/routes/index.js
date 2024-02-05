@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const countryRouter = require('./countries')
+const countryRouter = require('./Countries')
 
 const router = Router()
 
