@@ -30,13 +30,14 @@ const countrySchema = mongoose.Schema({
   },
   population: {
     type: Number,
-    required: true // agregado por mi
+    required: true
   },
   createdInDb: {
     type: Boolean,
     required: true,
     default: true
-  }
+  },
+  activities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Activity' }]
 })
 
 module.exports = mongoose.model('Country', countrySchema)
