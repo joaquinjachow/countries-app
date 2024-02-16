@@ -1,5 +1,5 @@
 import Head from 'next/head'
-
+import LandingPage from '../components/LandingPage'
 const Index = () => {
   return (
     <>
@@ -7,7 +7,7 @@ const Index = () => {
         <title>Inicio | Countries-app</title>
       </Head>
       <main>
-        <h1>hola</h1>
+        <LandingPage />
       </main>
     </>
   )
