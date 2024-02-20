@@ -25,16 +25,16 @@ return(
 }} */
 export default function Card ({ name, flag, continent, id }) {
   return (
-    <div className='card'>
+    <div className='w-72 h-80 text-black bg-[#454545d1]'>
       <Link href={'/home' + id}>
         <div>
-          <h3 className='link'>{name}</h3>
+          <h3 className='text-black no-underline'>{name}</h3>
         </div>
       </Link>
       <div>
-        <Image className='img-c' src={flag} alt='No se encontro la bandera' />
+        <Image className='bg-transparent w-[90%] max-h-36 align-middle items-center text-center' src={flag} alt='No se encontro la bandera' />
       </div>
-      <div className='continent'>
+      <div className='pt-2'>
         <h3>{continent}</h3>
       </div>
     </div>
