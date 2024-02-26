@@ -29,7 +29,7 @@ server.use((err, req, res, next) => {
 server.use('/', routes)
 
 // Levantado del servidor
-const port = process.env.PORT || 9000
+const port = process.env.PORT || 3001
 conn.once('open', () => {
   server.listen(port, () => console.log('Server listening on port', port))
 })
