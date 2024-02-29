@@ -2,37 +2,30 @@ import React, { useState, useEffect } from 'react'
 import useStore from '../store/zustandStore'
 import Link from 'next/link'
 import Card from './Card'
+import SearchBar from './Searchbar'
+import Paginado from './Paginado'
 
 const Home = () => {
-  // const dispatch = useDispatch() // para despachar las actions
-  // const allCountries = useSelector((state) => state.Countries)
-  /* console.log(allCountries) */
-  // variables del paginado
-  const { getCountries, filterCountriesByContinent, countries } = useStore()
+  const { getCountries, countries } = useStore() // filterCountriesByContinent,
   useEffect(() => {
     getCountries()
   }, [])
   /*   const handleContinentFilter = (continent) => {
     filterCountriesByContinent(continent)
   } */
-  /*   const [CurrentPage, setCurrentPage] = useState(1)
+  const [CurrentPage, setCurrentPage] = useState(1)
+  // eslint-disable-next-line no-unused-vars
   const [CountriesPerPage, setCountriesperPage] = useState(10)
   const IndexOfLastCountrie = CurrentPage === 1 ? 9 : CurrentPage * CountriesPerPage - 1 // currentpage era siempre 10, entonces lo cambie por 10, lo mismo abajo
-  const IndexOfFirstCountrie = CurrentPage === 1 ? 0 : IndexOfLastCountrie - CountriesPerPage */
-  // const CurrentCountries = allCountries.slice(IndexOfFirstCountrie, IndexOfLastCountrie)
-  /* console.log(CurrentCountrie)
-    console.log(CurrentPage)
-    console.log(IndexOfFirstCountrie)
-    console.log(IndexOfLastCountrie) */
+  const IndexOfFirstCountrie = CurrentPage === 1 ? 0 : IndexOfLastCountrie - CountriesPerPage
+  const CurrentCountries = countries.slice(IndexOfFirstCountrie, IndexOfLastCountrie)
 
-  /*   const paginado = (pageNummber) => {
+  const paginado = (pageNummber) => {
     setCurrentPage(pageNummber)
   }
 
-  const [order, setOrder] = useState('')
+  /*   const [order, setOrder] = useState('')
   const [orderP, setOrderPopulation] = useState('') */
-
-  // trae del estado los countries cuando el componente se monta
 
   /*   function handleClick (e) {
     e.preventDefault()
@@ -66,10 +59,10 @@ const Home = () => {
     <div>
       <h1 className='titulo'>Paises</h1>
       <Link href='/activities'>
-        <button className='buttons-home'>Crear Actividad</button>
+        <button className='bg-[#454545d1] text-[#f0ffff] cursor-pointer rounded-lg'>Crear Actividad</button>
       </Link>
       <div>
-        {/*         <SearchBar /> */}
+        <SearchBar />
         {/*         <select onChange={e => handleSortName(e)} defaultValue='default' id='borrar'>
           <option value='default' disabled>Ordenado Alfabetico</option>
           <option value='asc'> A-Z</option>
@@ -99,13 +92,13 @@ const Home = () => {
           Paises con poblacion mayor a 10.000.000
         </button>
         <button onClick={e => { handleClick(e) }}> Limpiar filtros</button> */}
-        {/*         <Paginado
+        <Paginado
           CountriesPerPage={CountriesPerPage}
-          allCountries={allCountries.length}
+          allCountries={countries.length}
           paginado={paginado}
-        /> */}
+        />
         <div className='grid grid-cols-8 gap-8 justify-center'>
-          {countries?.map((el) => {
+          {CurrentCountries?.map((el) => {
             return (
               <Link key={el.id} href='/home/[id]' as={`/home/${el.id}`}>
                 <div key={el.id} className='flex flex-wrap justify-between mb-[5%]'>
