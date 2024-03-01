@@ -2,7 +2,7 @@ import React from 'react'
 import background from '../../public/assets/Mapamundo_pi.jpg'
 import Link from 'next/link'
 
-export default function LandingPage () {
+const LandingPage = () => {
   const containerStyle = {
     backgroundImage: `url(${background.src})`,
     backgroundSize: 'cover',
@@ -44,3 +44,4 @@ export default function LandingPage () {
     </div>
   )
 }
+export default LandingPage
