@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-// import { useDispatch } from 'react-redux'
-// import { getNameCountries } from '../../Redux/action'
 
-export default function Searchbar () {
+const SearchBar = () => {
   const [name, setName] = useState('')
 
   function handleInputChange (e) {
@@ -23,7 +21,8 @@ export default function Searchbar () {
         type='text'
         placeholder='Buscar Pais'
       />
-      <button className='bg-[#454545d1] cursor-pointer text-[#f0ffff]' type='submit' onClick={e => handleSubmit(e)}>Buscar</button>
+      <button className='bg-[#454545d1] cursor-pointer text-[#f0ffff] rounded-lg' type='submit' onClick={e => handleSubmit(e)}>Buscar</button>
     </div>
   )
 }
+export default SearchBar
