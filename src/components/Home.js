@@ -56,11 +56,13 @@ const Home = () => {
   } */
 
   return (
-    <div>
-      <h1 className='titulo'>Paises</h1>
-      <Link href='/activities'>
-        <button className='bg-[#454545d1] text-[#f0ffff] cursor-pointer rounded-lg'>Crear Actividad</button>
-      </Link>
+    <div className='mx-auto w-[60%]'>
+      <div>
+        <h1 className='titulo'>Paises</h1>
+        <Link href='/activities'>
+          <button className='bg-[#454545d1] text-[#f0ffff] cursor-pointer rounded-lg'>Crear Actividad</button>
+        </Link>
+      </div>
       <div>
         <SearchBar />
         {/*         <select onChange={e => handleSortName(e)} defaultValue='default' id='borrar'>
@@ -97,11 +99,11 @@ const Home = () => {
           allCountries={countries.length}
           paginado={paginado}
         />
-        <div className='grid grid-cols-8 gap-8 justify-center'>
+        <div className='grid grid-cols-4 gap-8 justify-center'>
           {CurrentCountries?.map((el) => {
             return (
               <Link key={el.id} href='/home/[id]' as={`/home/${el.id}`}>
-                <div key={el.id} className='flex flex-wrap justify-between mb-[5%]'>
+                <div key={el.id}>
                   <Card
                     name={el.name}
                     flag={el.flag}
