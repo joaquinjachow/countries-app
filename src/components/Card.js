@@ -4,8 +4,8 @@ import Image from 'next/image'
 
 const Card = ({ name, flag, continent, id }) => {
   return (
-    <div className='text-black bg-[#454545d1] h-60'>
-      <div className='space-y-4 pt-3 text-center'>
+    <div className='w-full h-64 max-w-xs mb-10 p-4 font-medium transition-all duration-500 ease-in-out bg-[#FCFCFC] rounded-md shadow-lg shadow-slate-500 hover:scale-105 hover:shadow-xl'>
+      <div className='space-y-4 text-center'>
         <div>
           <Link href={'/home' + id}>
             <div>
