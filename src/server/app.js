@@ -3,6 +3,7 @@ const { conn } = require('./db')
 const routes = require('./routes/index.js')
 
 const server = express()
+server.disable('x-powered-by') // deshabilitar el header de Express
 server.name = 'API'
 
 // Middleware para CORS
