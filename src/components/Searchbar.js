@@ -13,15 +13,15 @@ const SearchBar = () => {
   }
 
   return (
-    <div>
+    <div className='flex items-center h-[4vh]'>
       <input
-        className='w-[15%] rounded-lg border border-[#454545d1]'
+        className='cursor-auto border-none rounded-3xl bg-white h-full w-[55vh] text-black text-lg text-left pl-4'
         value={name}
         onChange={e => handleInputChange(e)}
-        type='text'
+        type='search'
         placeholder='Buscar Pais'
       />
-      <button className='bg-[#454545d1] cursor-pointer text-[#f0ffff] rounded-lg' type='submit' onClick={e => handleSubmit(e)}>Buscar</button>
+      <button className='cursor-pointer border-none bg-none h-full w-20 text-lg m-1 items-center text-[#f0ffff] rounded-lg' type='submit' onClick={e => handleSubmit(e)}>Buscar</button>
     </div>
   )
 }
