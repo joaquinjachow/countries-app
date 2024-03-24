@@ -2,28 +2,21 @@ import React, { useState, useEffect } from 'react'
 import useStore from '../store/zustandStore'
 import Link from 'next/link'
 import Card from './Card'
-import SearchBar from './Searchbar'
 import Paginado from './Paginado'
+import Navbar from './Navbar'
 
 const Home = () => {
-  const { getCountries, countries } = useStore() // filterCountriesByContinent,
+  const { getCountries, countries } = useStore()
   useEffect(() => {
     getCountries()
   }, [])
-  /*   const handleContinentFilter = (continent) => {
-    filterCountriesByContinent(continent)
-  } */
-  const [CurrentPage, setCurrentPage] = useState(1)
-  // eslint-disable-next-line no-unused-vars
-  const [CountriesPerPage, setCountriesperPage] = useState(10)
-  const IndexOfLastCountrie = CurrentPage === 1 ? 9 : CurrentPage * CountriesPerPage - 1 // currentpage era siempre 10, entonces lo cambie por 10, lo mismo abajo
-  const IndexOfFirstCountrie = CurrentPage === 1 ? 0 : IndexOfLastCountrie - CountriesPerPage
-  const CurrentCountries = countries.slice(IndexOfFirstCountrie, IndexOfLastCountrie)
 
-  const paginado = (pageNummber) => {
-    setCurrentPage(pageNummber)
-  }
-
+  // Paginacion
+  const [pag, setPag] = useState(1)
+  const [countriesPag] = useState(12)
+  const [input, setInput] = useState(1)
+  const CurrentCountries = countries === 'No se encontro el pais' ? '0' : countries
+  const max = Math.ceil(CurrentCountries?.length ? CurrentCountries.length / countriesPag : CurrentCountries.length / countriesPag)
   /*   const [order, setOrder] = useState('')
   const [orderP, setOrderPopulation] = useState('') */
 
@@ -56,16 +49,9 @@ const Home = () => {
   } */
 
   return (
-    <div className='mx-auto w-[60%]'>
-      <div>
-        <h1 className='titulo'>Paises</h1>
-        <Link href='/activities'>
-          <button className='bg-[#454545d1] text-[#f0ffff] cursor-pointer rounded-lg'>Crear Actividad</button>
-        </Link>
-      </div>
-      <div>
-        <SearchBar />
-        {/*         <select onChange={e => handleSortName(e)} defaultValue='default' id='borrar'>
+    <div className='mx-auto'>
+      <Navbar />
+      {/*         <select onChange={e => handleSortName(e)} defaultValue='default' id='borrar'>
           <option value='default' disabled>Ordenado Alfabetico</option>
           <option value='asc'> A-Z</option>
           <option value='des'> Z-A</option>
@@ -94,27 +80,29 @@ const Home = () => {
           Paises con poblacion mayor a 10.000.000
         </button>
         <button onClick={e => { handleClick(e) }}> Limpiar filtros</button> */}
-        <Paginado
-          CountriesPerPage={CountriesPerPage}
-          allCountries={countries.length}
-          paginado={paginado}
-        />
-        <div className='grid grid-cols-4 gap-8 justify-center'>
-          {CurrentCountries?.map((el) => {
-            return (
-              <Link key={el.id} href='/home/[id]' as={`/home/${el.id}`}>
-                <div key={el.id}>
-                  <Card
-                    name={el.name}
-                    flag={el.flag}
-                    continent={el.continent}
-                    id={el.id}
-                  />
-                </div>
-              </Link>
-            )
-          })}
-        </div>
+      <Paginado
+        pag={pag}
+        setPag={setPag}
+        max={max}
+        input={input}
+        setInput={setInput}
+      />
+      <div className='grid grid-cols-4 gap-8 justify-center w-[60%] mx-auto mt-4'>
+        {CurrentCountries?.slice((pag - 1) * countriesPag, pag * countriesPag).map((country) => {
+          return (
+            <Link key={country.id} href='/home/[id]' as={`/home/${country.id}`}>
+              <div key={country.id}>
+                <Card
+                  name={country.name}
+                  flag={country.flag}
+                  continent={country.continent}
+                  id={country.id}
+                  activities={country.activities}
+                />
+              </div>
+            </Link>
+          )
+        })}
       </div>
     </div>
   )
