@@ -2,20 +2,19 @@ import React, { useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import useStore from '../store/zustandStore'
-
-const Detail = (props) => {
+const Detail = () => {
   const { getCountries, countries } = useStore()
   useEffect(() => {
     getCountries()
   }, [])
-
+/* eslint-disable */
   return (
     <div>
       {
         countries.length > 0
           ? <div className='grid grid-cols-3 pt-36 justify-center items-center'>
             <div>
-              <Image className='w-full pl-10' src={countries[0].flag} alt='Bandera del Pais' />
+              <Image width={300} height={300} className='w-full pl-10' src={countries[0].flag} alt='Bandera del Pais' />
             </div>
             <div className='w-96 h-96 text-lg bg-[#cfa48f81] rounded-sm border border-black'>
               <h1>Nombre: {countries[0].name}</h1>
@@ -39,8 +38,8 @@ const Detail = (props) => {
               )}
             </div>
           </div>
-          : <p>Cargando...</p>
-            }
+          : <p className='text-3xl font-bold text-center'>Cargando...</p>
+      }
       <Link href='/home'>
         <button>Volver</button>
       </Link>
