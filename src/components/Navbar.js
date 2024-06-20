@@ -1,10 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
-import SearchBar from './Searchbar'
+import Searchbar from './Searchbar'
 import Logo from '../../public/assets/Logo.png'
 import Image from 'next/image'
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   return (
     <nav className='flex flex-nowrap justify-between h-32 w-auto content-start items-center mb-3' style={{ backgroundImage: "url('/assets/Banner.jpeg')", backgroundSize: 'cover' }}>
       <div>
@@ -13,7 +13,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div>
-        <SearchBar />
+        <Searchbar onSearch={onSearch} />
       </div>
       <div>
         <Link href='/activity' className='no-underline'>
