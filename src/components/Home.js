@@ -7,17 +7,25 @@ import Navbar from './Navbar'
 
 const Home = () => {
   const { getCountries, countries } = useStore()
+  const [searchTerm, setSearchTerm] = useState('')
+  const [pag, setPag] = useState(1)
+  const [countriesPag] = useState(12)
+  const [input, setInput] = useState(1)
+
   useEffect(() => {
     getCountries()
   }, [])
 
-  // Paginacion
-  const [pag, setPag] = useState(1)
-  const [countriesPag] = useState(12)
-  const [input, setInput] = useState(1)
-  const CurrentCountries = countries === 'No se encontro el pais' ? '0' : countries
-  const max = Math.ceil(CurrentCountries?.length ? CurrentCountries.length / countriesPag : CurrentCountries.length / countriesPag)
+  const filteredCountries = countries.filter(country =>
+    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+  const CurrentCountries = filteredCountries.length > 0 ? filteredCountries : countries
+  const max = Math.ceil(CurrentCountries.length / countriesPag)
 
+  const handleSearch = term => {
+    setSearchTerm(term)
+    setPag(1) // Reinicia la paginación al realizar una nueva búsqueda
+  }
   /*   function handleSortName (e) {
     e.preventDefault()
     setCurrentPage(1)// seteo para que la pagina default arranque en 1
@@ -39,7 +47,7 @@ const Home = () => {
 
   return (
     <div className='mx-auto'>
-      <Navbar />
+      <Navbar onSearch={handleSearch} />
       <Paginado
         pag={pag}
         setPag={setPag}
