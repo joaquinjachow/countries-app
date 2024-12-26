@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-require('dotenv').config()
 const Country = require('./models/Country.js')
 const Activity = require('./models/Activity.js')
+require('dotenv').config()
 
 mongoose
   .connect(process.env.MONGODB_URI)
