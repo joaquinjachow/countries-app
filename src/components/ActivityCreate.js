@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import Link from 'next/link'
 import useStore from '../store/zustandStore'
+import { useRouter } from 'next/router'
 
 const ActivityCreate = () => {
+  const router = useRouter()
   const { getCountries, countries } = useStore()
-  useEffect(() => {
-    getCountries()
-  }, [])
-  const history = useHistory()
   const [errors, setErrors] = useState({})
   const [buttonEnabled, setButtonEnabled] = useState(false)
   const [input, setInput] = useState({
@@ -19,172 +16,143 @@ const ActivityCreate = () => {
     countriesName: []
   })
 
-  function validate (input) {
+  useEffect(() => {
+    getCountries()
+  }, [])
+
+  const validate = (input) => {
     const errors = {}
-    if (!input.name) errors.name = '*Nombre de la Actividad requerida*'
-    setButtonEnabled(false)
-    if (input.name.length < 3 || input.name.length > 15) errors.name = '*Nombre de Actividad invalido*'
-    setButtonEnabled(false)
-    if (input.duration <= 0 || input.duration >= 24) errors.duration = '*Por favor, escriba una duracion entre 1 a 24 horas*'
-    setButtonEnabled(false)
-    if (!input.duration) errors.duration = '*Duracion requerida*'
-    setButtonEnabled(false)
-    if (!input.season) errors.season = '*Por favor, seleccione una temporada*'
-    setButtonEnabled(false)
-    if (!input.NombrePais) errors.NombrePais = '*Por favor, seleccione un pais*'
-    setButtonEnabled(false)
-    if (!input.dificulty) errors.dificulty = '*Por favor, seleccione una dificultad*'
-    setButtonEnabled(false)
-    /// ////////////////////////////////////////////////////////////////////////////////
-    if (Object.entries(errors).length === 0) setButtonEnabled(true)
-    /// ////////////////////////////////////////////////////////////////////////////////
+    if (!input.name) errors.name = 'Nombre de la actividad requerida.'
+    if (input.name.length < 3 || input.name.length > 15) errors.name = 'Nombre inválido (3-15 caracteres).'
+    if (input.duration <= 0 || input.duration > 24) errors.duration = 'Duración entre 1 y 24 horas.'
+    if (!input.season) errors.season = 'Seleccione una temporada.'
+    if (!input.dificulty) errors.dificulty = 'Seleccione una dificultad.'
+    if (!input.countriesName.length) errors.countriesName = 'Seleccione al menos un país.'
+    setButtonEnabled(Object.keys(errors).length === 0)
     return errors
   }
 
-  function handleChange (e) {
+  const handleChange = (e) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value
     })
-    setErrors(validate({
-      ...input,
-      [e.target.name]: e.target.value
-    }))
+    setErrors(validate({ ...input, [e.target.name]: e.target.value }))
   }
-  function handleCountrySelect (e) {
-    if (input.countriesName.includes(e.target.value)) { // Si mi estado local input.temp... incluye el value, retorna una alerta
-      return alert('Ya seleccionaste este pais')
+
+  const handleCountrySelect = (e) => {
+    const selectedCountry = e.target.value
+    if (input.countriesName.includes(selectedCountry)) {
+      return alert('Ya seleccionaste este país.')
     }
-    const index = countries.findIndex(object => {
-      return object.name === e.target.value
-    })
-    if (index > -1) {
-      countries.splice(index, 1)
-    }
-    setInput({
-      ...input,
-      countriesName: [...input.countriesName, e.target.value]
-    })
-    setErrors(validate({
-      ...input,
-      [e.target.name]: e.target.value
+    const updatedCountriesName = [...input.countriesName, selectedCountry]
+    setInput((prev) => ({
+      ...prev,
+      countriesName: updatedCountriesName
     }))
+    setErrors(validate({ ...input, countriesName: updatedCountriesName }))
   }
-  function handleSelect (e) {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value
-    })
-    setErrors(validate({
-      ...input,
-      [e.target.name]: e.target.value
-    }))
-  }
-  function handleDelete (e) {
-    setInput({
-      ...input,
-      countriesName: input.countriesName.filter(f => f !== e)
-    })
-    countries.push(e)
-    console.log(e)
-  }
-  function handleSubmit (e) {
+
+  const handleSubmit = (e) => {
     e.preventDefault()
-    // dispatch(postActivities(input))
-    alert('Actividad creada!')
-    console.log(input)
-    setInput({
-      name: '',
-      dificulty: '',
-      duration: '',
-      season: '',
-      countriesName: []
-    })
-    history.push('/home')
+    alert('Actividad creada con éxito.')
+    router.push('/home')
   }
 
   return (
-    <div>
-      <div className='container-create'>
-        <Link to='/home'><button className='boton-volver'>Volver</button></Link>
-        <h1 className='titulo'>Crea tu actividad!</h1>
-        <form className='form' onSubmit={e => handleSubmit(e)}>
-          <div>
-            <label>Actividad:</label>
-            <input
-              type='text'
-              value={input.name}
-              name='name'
-              onChange={handleChange}
-            />
-            {errors.name && (
-              <p className='warning'>{errors.name}</p>
-            )}
-          </div>
-          <div>
-            <label>Dificultad:</label>
-            <select defaultValue='default' name='dificulty' onChange={e => handleSelect(e)}>
-              <option value='default' disabled>Dificultad</option>
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-            </select>
-          </div>
-          <div>
-            {errors.dificulty && (
-              <p className='warning'>{errors.dificulty}</p>
-            )}
-          </div>
-          <div>
-            <label>Duracion:</label>
-            <input
-              type='number'
-              name='duration'
-              value={input.duration}
-              onChange={handleChange}
-            />
-            {errors.duration && (
-              <p className='warning'>{errors.duration}</p>
-            )}
-          </div>
-          <div>
-            <label>Temporada:</label>
-            <select defaultValue='default' name='season' onChange={e => handleSelect(e)}>
-              <option value='default' disabled>Temporada</option>
-              <option value='summer'>Verano</option>
-              <option value='winter'>Invierno</option>
-              <option value='autumn'>Otoño</option>
-              <option value='spring'>Primavera</option>
-            </select>
-          </div>
-          <div>{errors.season && (
-            <p className='warning'>{errors.season}</p>
-          )}
-          </div>
-          <div>
-            <select defaultValue='default' name='NombrePais' onChange={e => handleCountrySelect(e)}>
-              <option value='default' disabled>Selecciona el Pais</option>
-              {countries.map(c => (
-                <option key={c.id} value={c.name}>{c.name}</option>
-              ))}
-            </select>
-            {errors.countriesName && (
-              <p className='warning'>{errors.countriesName}</p>
-            )}
-          </div>
-          <button className='boton' type='submit' disabled={!buttonEnabled}>Crear</button>
-        </form>
-        {input.countriesName.map(c =>
-          <div key={c.id} className='form'>
-            <p>{c}
-              <button className='boton' onClick={() => handleDelete(c)}>X</button>
-            </p>
-          </div>
-        )}
-      </div>
+    <div className='max-w-4xl mx-auto p-8 bg-gray-50 shadow-lg rounded-lg'>
+      <Link href='/home'>
+        <button className='mb-4 px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800'>
+          Volver
+        </button>
+      </Link>
+      <h1 className='text-3xl font-bold mb-6 text-center'>Crea tu Actividad</h1>
+      <form onSubmit={handleSubmit} className='space-y-6'>
+        <div>
+          <label className='block text-lg font-semibold'>Nombre:</label>
+          <input
+            type='text'
+            name='name'
+            value={input.name}
+            onChange={handleChange}
+            className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+          />
+          {errors.name && <p className='text-red-500 text-sm'>{errors.name}</p>}
+        </div>
+
+        <div>
+          <label className='block text-lg font-semibold'>Dificultad:</label>
+          <select
+            name='dificulty'
+            defaultValue='default'
+            onChange={handleChange}
+            className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+          >
+            <option value='default' disabled>Selecciona</option>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+          </select>
+          {errors.dificulty && <p className='text-red-500 text-sm'>{errors.dificulty}</p>}
+        </div>
+
+        <div>
+          <label className='block text-lg font-semibold'>Duración (horas):</label>
+          <input
+            type='number'
+            name='duration'
+            value={input.duration}
+            onChange={handleChange}
+            className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+          />
+          {errors.duration && <p className='text-red-500 text-sm'>{errors.duration}</p>}
+        </div>
+
+        <div>
+          <label className='block text-lg font-semibold'>Temporada:</label>
+          <select
+            name='season'
+            defaultValue='default'
+            onChange={handleChange}
+            className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+          >
+            <option value='default' disabled>Selecciona</option>
+            <option value='summer'>Verano</option>
+            <option value='winter'>Invierno</option>
+            <option value='autumn'>Otoño</option>
+            <option value='spring'>Primavera</option>
+          </select>
+          {errors.season && <p className='text-red-500 text-sm'>{errors.season}</p>}
+        </div>
+
+        <div>
+          <label className='block text-lg font-semibold'>Países:</label>
+          <select
+            name='countriesName'
+            defaultValue='default'
+            onChange={handleCountrySelect}
+            className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+          >
+            <option value='default' disabled>Selecciona un país</option>
+            {countries.map((c) => (
+              <option key={c.id} value={c.name}>{c.name}</option>
+            ))}
+          </select>
+          {errors.countriesName && <p className='text-red-500 text-sm'>{errors.countriesName}</p>}
+        </div>
+
+        <button
+          type='submit'
+          disabled={!buttonEnabled}
+          className={`w-full py-2 text-white rounded ${buttonEnabled ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
+        >
+          Crear Actividad
+        </button>
+      </form>
     </div>
   )
 }
+
 export default ActivityCreate
