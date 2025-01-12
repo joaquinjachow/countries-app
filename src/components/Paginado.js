@@ -16,10 +16,10 @@ const Paginado = ({ pag, setPag, max, input, setInput }) => {
     }
   }
 
-  function handlePagination (e) {
-    const value = e.target.value.trim() // Elimina los espacios en blanco al principio y al final
+  const handlePagination = (e) => {
+    const value = e.target.value.trim()
     if (value === '') {
-      setInput(1) // Establece la primera página si el input está vacío
+      setInput(1)
       setPag(1)
     } else {
       const parsedValue = parseInt(value)
@@ -33,20 +33,36 @@ const Paginado = ({ pag, setPag, max, input, setInput }) => {
   }
 
   return (
-    <div className='flex h-8 justify-center items-center'>
+    <div className='flex items-center justify-center mt-4 space-x-2'>
       {input !== 1 && (
-        <button className='p-2 mr-2 cursor-pointer border-none rounded-full bg-[#011935] text-white text-lg h-8 w-8 text-center font-bold flex items-center justify-center' onClick={prevPage}>
-          <IoIosArrowBack width={16} height={16} />
+        <button
+          className='p-2 rounded-full bg-[#A98069] text-[#FAF3E0] hover:bg-[#8C6A54] transition duration-300'
+          onClick={prevPage}
+        >
+          <IoIosArrowBack size={16} />
         </button>
       )}
-      <input className='border border-purple-600 rounded text-center h-8 w-12 ml-2' max={max} min='1' name='pag' autoComplete='off' value={input} onChange={(e) => handlePagination(e)} />
-      <button className='numeros border-none rounded h-8 w-12 ml-2'>de {max}</button>
+      <input
+        className='border border-[#A98069] text-center pl-3 rounded-lg h-10 w-12 focus:outline-none focus:ring-2 focus:ring-[#8C6A54]'
+        value={input}
+        onChange={handlePagination}
+        type='number'
+        min='1'
+        max={max}
+      />
+      <span className='text-[#5A4634] font-medium'>
+        de {max}
+      </span>
       {input !== max && (
-        <button className='p-2 ml-2 cursor-pointer border-none rounded-full bg-[#011935] text-white text-lg h-8 w-8 text-center font-bold flex items-center justify-center' onClick={nextPage}>
-          <IoIosArrowForward width={16} height={16} />
+        <button
+          className='p-2 rounded-full bg-[#A98069] text-[#FAF3E0] hover:bg-[#8C6A54] transition duration-300'
+          onClick={nextPage}
+        >
+          <IoIosArrowForward size={16} />
         </button>
       )}
     </div>
   )
 }
+
 export default Paginado
