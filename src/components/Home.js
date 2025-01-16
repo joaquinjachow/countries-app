@@ -22,28 +22,18 @@ const Home = () => {
   const CurrentCountries = filteredCountries.length > 0 ? filteredCountries : countries
   const max = Math.ceil(CurrentCountries.length / countriesPag)
 
-  const handleSearch = term => {
+  const handleSearch = (term) => {
+    const filtered = countries.filter((country) =>
+      country.name.toLowerCase().includes(term.toLowerCase())
+    )
+
+    if (filtered.length === 0) {
+      alert('El país no existe')
+    }
+
     setSearchTerm(term)
     setPag(1) // Reinicia la paginación al realizar una nueva búsqueda
   }
-  /*   function handleSortName (e) {
-    e.preventDefault()
-    setCurrentPage(1)// seteo para que la pagina default arranque en 1
-    setOrder(`Sort ${e.target.value}`) // para que cuando setea la pagina mododifique el estado local y se renderize
-  }
-  function handleSortPopulation (e) {
-    e.preventDefault()
-    setCurrentPage(1)
-    setOrderPopulation(`Ordenado ${e.target.value}`)
-  }
-  function handleFilterContinents (e) {
-    setCurrentPage(1)
-  }
-  function handleFilterByActivities (e) {
-    setCurrentPage(1)
-  }
-  function handleFilterPopulation2 (e) {
-  } */
 
   return (
     <div className='mx-auto'>
