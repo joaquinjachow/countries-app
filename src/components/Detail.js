@@ -1,14 +1,55 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import useStore from '../store/zustandStore'
 
 const Detail = () => {
-  const { getCountries, countries } = useStore()
+  const { getCountries, updateCountryActivities, countries } = useStore()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [errors, setErrors] = useState({})
+  const [input, setInput] = useState({
+    name: '',
+    dificulty: '',
+    duration: '',
+    season: ''
+  })
 
   useEffect(() => {
     getCountries()
   }, [])
+
+  const validate = (input) => {
+    const errors = {}
+    if (!input.name) errors.name = 'Nombre requerido.'
+    if (input.name.length < 3 || input.name.length > 15) errors.name = 'Nombre inválido (3-15 caracteres).'
+    if (input.duration <= 0 || input.duration > 24) errors.duration = 'Duración entre 1 y 24 horas.'
+    if (!input.season) errors.season = 'Seleccione una temporada.'
+    if (!input.dificulty) errors.dificulty = 'Seleccione una dificultad.'
+    return errors
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setInput({ ...input, [name]: value })
+    setErrors(validate({ ...input, [name]: value }))
+  }
+
+  const handleSaveActivity = () => {
+    const validationErrors = validate(input)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+    if (countries.length === 0) {
+      alert('No hay países cargados.')
+      return
+    }
+    const newActivity = { ...input }
+    const countryId = countries[0].id
+    updateCountryActivities(countryId, newActivity)
+    setInput({ name: '', dificulty: '', duration: '', season: '' })
+    setIsModalOpen(false)
+  }
 
   return (
     <div className='container mx-auto pt-20'>
@@ -28,11 +69,21 @@ const Detail = () => {
               <div className='text-lg flex-grow'>
                 <h1 className='text-4xl font-bold mb-4 text-center md:text-left'>{countries[0].name}</h1>
                 <div className='space-y-2'>
-                  <p><strong>ID:</strong> {countries[0].id}</p>
-                  <p><strong>Capital:</strong> {countries[0].capital}</p>
-                  <p><strong>Continente:</strong> {countries[0].subregion}</p>
-                  <p><strong>Área:</strong> {countries[0].area} km²</p>
-                  <p><strong>Población:</strong> {countries[0].population}</p>
+                  <p>
+                    <strong>ID:</strong> {countries[0].id}
+                  </p>
+                  <p>
+                    <strong>Capital:</strong> {countries[0].capital}
+                  </p>
+                  <p>
+                    <strong>Continente:</strong> {countries[0].subregion}
+                  </p>
+                  <p>
+                    <strong>Área:</strong> {countries[0].area} km²
+                  </p>
+                  <p>
+                    <strong>Población:</strong> {countries[0].population}
+                  </p>
                 </div>
               </div>
             </div>
@@ -43,10 +94,18 @@ const Detail = () => {
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
                   {countries[0].activities.map((e) => (
                     <div key={e.id} className='text-lg'>
-                      <p><strong>Nombre:</strong> {e.name}</p>
-                      <p><strong>Dificultad:</strong> {e.dificulty}</p>
-                      <p><strong>Duración:</strong> {e.duration}</p>
-                      <p><strong>Temporada:</strong> {e.season}</p>
+                      <p>
+                        <strong>Nombre:</strong> {e.name}
+                      </p>
+                      <p>
+                        <strong>Dificultad:</strong> {e.dificulty}
+                      </p>
+                      <p>
+                        <strong>Duración:</strong> {e.duration}
+                      </p>
+                      <p>
+                        <strong>Temporada:</strong> {e.season}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -59,12 +118,98 @@ const Detail = () => {
           )}
 
       <div className='flex justify-center mt-8'>
-        <Link href='/home'>
-          <button className='px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition duration-300'>
-            Volver
-          </button>
-        </Link>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className='px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300'
+        >
+          Agregar Actividad
+        </button>
       </div>
+
+      <Link href='/home'>
+        <button className='mt-4 px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition duration-300'>
+          Volver
+        </button>
+      </Link>
+
+      {isModalOpen && (
+        <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
+          <div className='bg-white p-8 rounded-lg shadow-lg max-w-lg w-full'>
+            <h2 className='text-2xl font-bold mb-4'>Crear Actividad</h2>
+            <div className='space-y-4'>
+              <div>
+                <label className='block text-lg font-semibold'>Nombre:</label>
+                <input
+                  type='text'
+                  name='name'
+                  value={input.name}
+                  onChange={handleInputChange}
+                  className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                />
+                {errors.name && <p className='text-red-500 text-sm'>{errors.name}</p>}
+              </div>
+              <div>
+                <label className='block text-lg font-semibold'>Dificultad:</label>
+                <select
+                  name='dificulty'
+                  value={input.dificulty}
+                  onChange={handleInputChange}
+                  className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                >
+                  <option value=''>Selecciona</option>
+                  <option value='1'>1</option>
+                  <option value='2'>2</option>
+                  <option value='3'>3</option>
+                  <option value='4'>4</option>
+                  <option value='5'>5</option>
+                </select>
+                {errors.dificulty && <p className='text-red-500 text-sm'>{errors.dificulty}</p>}
+              </div>
+              <div>
+                <label className='block text-lg font-semibold'>Duración (horas):</label>
+                <input
+                  type='number'
+                  name='duration'
+                  value={input.duration}
+                  onChange={handleInputChange}
+                  className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                />
+                {errors.duration && <p className='text-red-500 text-sm'>{errors.duration}</p>}
+              </div>
+              <div>
+                <label className='block text-lg font-semibold'>Temporada:</label>
+                <select
+                  name='season'
+                  value={input.season}
+                  onChange={handleInputChange}
+                  className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+                >
+                  <option value=''>Selecciona</option>
+                  <option value='summer'>Verano</option>
+                  <option value='winter'>Invierno</option>
+                  <option value='autumn'>Otoño</option>
+                  <option value='spring'>Primavera</option>
+                </select>
+                {errors.season && <p className='text-red-500 text-sm'>{errors.season}</p>}
+              </div>
+              <div className='flex justify-end space-x-4'>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className='px-4 py-2 bg-gray-300 rounded hover:bg-gray-400'
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleSaveActivity}
+                  className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
