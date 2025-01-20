@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import LandingPage from '../components/LandingPage'
+
 const Index = () => {
   return (
     <>
