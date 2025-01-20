@@ -3,28 +3,32 @@ import React, { useState } from 'react'
 const SearchBar = ({ onSearch }) => {
   const [name, setName] = useState('')
 
-  const handleInputChange = e => {
-    setName(e.target.value)
-  }
+  const handleInputChange = (e) => setName(e.target.value)
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     onSearch(name.trim())
     setName('')
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e)
+    }
+  }
+
   return (
-    <div className='flex items-center h-[4vh]'>
+    <div className='flex items-center h-10'>
       <input
-        className='cursor-auto border-none rounded-3xl px-4 bg-white h-full w-[55vh] text-black text-lg text-left pl-4'
+        className='border border-[#A98069] rounded-lg px-4 bg-white text-black text-lg h-full w-[40vh] focus:outline-none focus:ring-2 focus:ring-[#8C6A54]'
         value={name}
-        onChange={e => handleInputChange(e)}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         type='search'
-        placeholder='Buscar Pais'
+        placeholder='Buscar País'
       />
       <button
-        className='cursor-pointer border-none bg-none h-full w-20 text-lg m-1 items-center text-[#f0ffff] rounded-lg'
-        type='submit'
+        className='ml-2 px-4 py-1 rounded-lg bg-white text-[#A98069] font-medium shadow-md hover:bg-[#8C6A54] hover:text-white transition duration-300'
         onClick={handleSubmit}
       >
         Buscar
@@ -32,4 +36,5 @@ const SearchBar = ({ onSearch }) => {
     </div>
   )
 }
+
 export default SearchBar
