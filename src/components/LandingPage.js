@@ -11,11 +11,16 @@ const LandingPage = () => {
   }
 
   return (
-    <div className='flex justify-center min-h-screen items-center' style={containerStyle}>
-      <div className='flex flex-col items-center space-y-5'>
-        <h1 className='text-6xl font-semibold text-[#3A301A]'>Paises del mundo</h1>
+    <div
+      className='flex justify-center min-h-screen items-center'
+      style={containerStyle}
+    >
+      <div className='flex flex-col items-center space-y-8 bg-opacity-70 p-10 rounded-lg shadow-lg'>
+        <h1 className='text-6xl font-bold text-[#5A4634] tracking-wide'>
+          Paises del Mundo
+        </h1>
         <Link href='/home'>
-          <button className='px-4 py-2 font-extrabold text-xl cursor-pointer border-none rounded-3xl overflow-hidden bg-[#A98069] text-[#503A31] landingBtn'>Ingresar</button>
+          <button className='px-6 py-2 font-extrabold text-2xl cursor-pointer border-none rounded-3xl overflow-hidden bg-[#A98069] text-[#503A31] landingBtn'>Ingresar</button>
         </Link>
       </div>
       <style jsx>{`
@@ -44,4 +49,5 @@ const LandingPage = () => {
     </div>
   )
 }
+
 export default LandingPage
