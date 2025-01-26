@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import axios from 'axios'
 
-const useStore = create((set) => {
+const useStore = create((set, get) => {
   const initialState = {
     countries: [],
     allCountries: [],
@@ -41,6 +41,19 @@ const useStore = create((set) => {
       } catch (error) {
         console.error(error)
       }
+    },
+    updateCountryActivities: (countryId, activity) => {
+      const countries = get().countries
+      const updatedCountries = countries.map((country) => {
+        if (country.id === countryId) {
+          return {
+            ...country,
+            activities: [...(country.activities || []), activity]
+          }
+        }
+        return country
+      })
+      set({ countries: updatedCountries })
     },
     filterCountriesByContinent: (payload) => {
       const allCountries = useStore.getState().allCountries
