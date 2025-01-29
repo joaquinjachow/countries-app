@@ -12,8 +12,11 @@ const db = mongoose.connection
 
 Activity.schema.path('countries').validate(async function (value) {
   const countriesCount = await Country.countDocuments({ _id: { $in: value } })
-  return countriesCount === value.length
-}, 'Invalid countries reference')
+  if (countriesCount !== value.length) {
+    throw new Error('❌ Invalid countries reference')
+  }
+  return true
+})
 
 module.exports = {
   Country,
