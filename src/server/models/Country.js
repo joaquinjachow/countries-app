@@ -26,15 +26,16 @@ const countrySchema = mongoose.Schema({
     type: String
   },
   area: {
-    type: Number
+    type: Number,
+    min: 0
   },
   population: {
     type: Number,
-    required: true
+    required: true,
+    min: 0
   },
   createdInDb: {
     type: Boolean,
-    required: true,
     default: true
   },
   activities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Activity' }]
