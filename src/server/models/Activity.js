@@ -17,8 +17,7 @@ const ActivitySchema = mongoose.Schema({
   },
   createdInDb: {
     type: Boolean,
-    default: true,
-    required: true
+    default: true
   },
   countries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Country' }]
 })
