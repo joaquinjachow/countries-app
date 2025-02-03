@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import useStore from '../store/zustandStore'
 import { useRouter } from 'next/router'
 
 const ActivityCreate = () => {
   const router = useRouter()
-  const { getCountries, countries } = useStore()
+  const { getCountries, countries, postActivities } = useStore()
   const [errors, setErrors] = useState({})
   const [buttonEnabled, setButtonEnabled] = useState(false)
   const [input, setInput] = useState({
@@ -18,11 +18,15 @@ const ActivityCreate = () => {
 
   useEffect(() => {
     getCountries()
-  }, [])
+  }, [getCountries])
 
   const validate = (input) => {
     const errors = {}
-    if (!input.name) errors.name = 'Nombre de la actividad requerida.'
+    if (!input.name) {
+      errors.name = 'Nombre requerido.'
+    } else if (input.name.length < 3 || input.name.length > 15) {
+      errors.name = 'Nombre inválido (3-15 caracteres).'
+    }
     if (input.name.length < 3 || input.name.length > 15) errors.name = 'Nombre inválido (3-15 caracteres).'
     if (input.duration <= 0 || input.duration > 24) errors.duration = 'Duración entre 1 y 24 horas.'
     if (!input.season) errors.season = 'Seleccione una temporada.'
@@ -32,13 +36,14 @@ const ActivityCreate = () => {
     return errors
   }
 
-  const handleChange = (e) => {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value
+  const handleInputChange = useCallback((e) => {
+    const { name, value } = e.target
+    setInput((prev) => {
+      const newInput = { ...prev, [name]: value }
+      setErrors(validate(newInput))
+      return newInput
     })
-    setErrors(validate({ ...input, [e.target.name]: e.target.value }))
-  }
+  }, [])
 
   const handleCountrySelect = (e) => {
     const selectedCountry = e.target.value
@@ -53,8 +58,30 @@ const ActivityCreate = () => {
     setErrors(validate({ ...input, countriesName: updatedCountriesName }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    const validationErrors = validate(input)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+    const activityPayload = {
+      name: input.name,
+      dificulty: input.dificulty,
+      duration: input.duration,
+      season: input.season,
+      countriesName: input.countriesName
+    }
+
+    await postActivities(activityPayload)
+
+    setInput({
+      name: '',
+      dificulty: '',
+      duration: '',
+      season: '',
+      countriesName: []
+    })
     alert('Actividad creada con éxito.')
     router.push('/home')
   }
@@ -74,7 +101,7 @@ const ActivityCreate = () => {
             type='text'
             name='name'
             value={input.name}
-            onChange={handleChange}
+            onChange={handleInputChange}
             className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
           {errors.name && <p className='text-red-500 text-sm'>{errors.name}</p>}
@@ -85,7 +112,7 @@ const ActivityCreate = () => {
           <select
             name='dificulty'
             defaultValue='default'
-            onChange={handleChange}
+            onChange={handleInputChange}
             className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
           >
             <option value='default' disabled>Selecciona</option>
@@ -104,7 +131,7 @@ const ActivityCreate = () => {
             type='number'
             name='duration'
             value={input.duration}
-            onChange={handleChange}
+            onChange={handleInputChange}
             className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
           {errors.duration && <p className='text-red-500 text-sm'>{errors.duration}</p>}
@@ -115,7 +142,7 @@ const ActivityCreate = () => {
           <select
             name='season'
             defaultValue='default'
-            onChange={handleChange}
+            onChange={handleInputChange}
             className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
           >
             <option value='default' disabled>Selecciona</option>
