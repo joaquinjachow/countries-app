@@ -42,18 +42,24 @@ const useStore = create((set, get) => {
         console.error(error)
       }
     },
-    updateCountryActivities: (countryId, activity) => {
-      const countries = get().countries
-      const updatedCountries = countries.map((country) => {
-        if (country.id === countryId) {
-          return {
-            ...country,
-            activities: [...(country.activities || []), activity]
-          }
-        }
-        return country
-      })
-      set({ countries: updatedCountries })
+    addActivityToCountry: async (countryId, activityData) => {
+      try {
+        const country = get().countries.find(c => c.id === countryId)
+        if (!country) throw new Error('País no encontrado')
+        const response = await axios.post('http://localhost:3001/activities', {
+          ...activityData,
+          countriesName: [country.name]
+        })
+        const newActivity = response.data.data
+        const updatedCountries = get().countries.map(c =>
+          c.id === countryId
+            ? { ...c, activities: [...(c.activities || []), newActivity] }
+            : c
+        )
+        set({ countries: updatedCountries })
+      } catch (error) {
+        console.error('Error al agregar actividad:', error)
+      }
     },
     filterCountriesByContinent: (payload) => {
       const allCountries = useStore.getState().allCountries
