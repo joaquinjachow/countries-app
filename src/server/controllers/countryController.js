@@ -16,7 +16,7 @@ const getCountries = async (req, res) => {
         const countriesData = allCountries.data.map((country) => ({
           id: country.cca3,
           name: country.name.common,
-          flag: country.flags[0],
+          flag: country.flags.png || country.flags.svg,
           continent: country.continents[0],
           capital: country.capital != null ? country.capital[0] : 'No data',
           subregion: country.subregion,
