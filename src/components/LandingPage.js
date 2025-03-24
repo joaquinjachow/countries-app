@@ -15,7 +15,7 @@ const LandingPage = () => {
       className='flex justify-center min-h-screen items-center'
       style={containerStyle}
     >
-      <div className='flex flex-col items-center space-y-8 bg-opacity-70 p-10 rounded-lg shadow-lg'>
+      <div className='flex flex-col items-center space-y-8 bg-opacity-75 p-10 rounded-lg shadow-lg'>
         <h1 className='text-6xl font-bold text-[#5A4634] tracking-wide'>
           Paises del Mundo
         </h1>
