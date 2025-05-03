@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Card from './Card'
 import Paginado from './Paginado'
 import Navbar from './Navbar'
+import Filters from './Filters'
 
 const Home = () => {
   const { getCountries, countries } = useStore()
@@ -13,8 +14,10 @@ const Home = () => {
   const [input, setInput] = useState(1)
 
   useEffect(() => {
-    getCountries()
-  }, [])
+    if (countries.length === 0) {
+      getCountries()
+    }
+  }, [countries.length, getCountries])
 
   const filteredCountries = countries.filter(country =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -38,6 +41,7 @@ const Home = () => {
   return (
     <div className='mx-auto'>
       <Navbar onSearch={handleSearch} />
+      <Filters />
       <Paginado
         pag={pag}
         setPag={setPag}
@@ -45,7 +49,7 @@ const Home = () => {
         input={input}
         setInput={setInput}
       />
-      <div className='grid grid-cols-4 gap-8 justify-center w-[60%] mx-auto mt-4'>
+      <div className='grid grid-cols-4 gap-8 gap-y-10 justify-center w-[60%] mx-auto mt-4'>
         {CurrentCountries?.slice((pag - 1) * countriesPag, pag * countriesPag).map((country) => {
           return (
             <Link key={country.id} href='/home/[id]' as={`/home/${country.id}`}>
