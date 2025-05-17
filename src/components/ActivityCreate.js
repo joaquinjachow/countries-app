@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import useStore from '../store/zustandStore'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const ActivityCreate = () => {
   const router = useRouter()
@@ -48,7 +50,8 @@ const ActivityCreate = () => {
   const handleCountrySelect = (e) => {
     const selectedCountry = e.target.value
     if (input.countriesName.includes(selectedCountry)) {
-      return alert('Ya seleccionaste este país.')
+      toast.error('Ya seleccionaste este país.', { position: 'top-center' })
+      return
     }
     const updatedCountriesName = [...input.countriesName, selectedCountry]
     setInput((prev) => ({
@@ -72,9 +75,7 @@ const ActivityCreate = () => {
       season: input.season,
       countriesName: input.countriesName
     }
-
     await postActivities(activityPayload)
-
     setInput({
       name: '',
       dificulty: '',
@@ -82,7 +83,7 @@ const ActivityCreate = () => {
       season: '',
       countriesName: []
     })
-    alert('Actividad creada con éxito.')
+    toast.success('Actividad creada con éxito.', { position: 'top-right' })
     router.push('/home')
   }
 
