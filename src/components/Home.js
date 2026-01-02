@@ -49,7 +49,7 @@ const Home = () => {
         input={input}
         setInput={setInput}
       />
-      <div className='grid grid-cols-4 gap-8 gap-y-10 justify-center w-[60%] mx-auto mt-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 gap-y-6 sm:gap-y-8 md:gap-y-10 justify-center w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] mx-auto mt-4 px-4 sm:px-0'>
         {CurrentCountries?.slice((pag - 1) * countriesPag, pag * countriesPag).map((country) => {
           return (
             <Link key={country.id} href='/home/[id]' as={`/home/${country.id}`}>
