@@ -75,14 +75,12 @@ const useStore = create((set, get) => {
       const sortedArr = payload === 'asc'
         ? useStore.getState().countries.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
         : useStore.getState().countries.sort((a, b) => (a.name > b.name) ? -1 : ((b.name > a.name) ? 1 : 0))
-
       set({ countries: sortedArr })
     },
     orderByPopulation: (payload) => {
       const sortPopulationArr = payload === 'asc'
         ? useStore.getState().countries.sort((a, b) => (a.population > b.population) ? 1 : ((b.population > a.population) ? -1 : 0))
         : useStore.getState().countries.sort((a, b) => (a.population > b.population) ? -1 : ((b.population > a.population) ? 1 : 0))
-
       set({ countries: sortPopulationArr })
     },
     orderByPopulation2: () => {
