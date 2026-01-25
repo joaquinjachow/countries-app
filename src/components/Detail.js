@@ -67,9 +67,9 @@ const Detail = () => {
   }
 
   return (
-    <div className='container mx-auto pt-20'>
+    <div className='container mx-auto pt-8 px-4'>
       <div className='flex flex-col items-center'>
-        <div className='bg-white p-16 rounded-lg shadow-lg shadow-slate-500 border border-gray-300 flex flex-col md:flex-row items-center max-w-4xl'>
+        <div className='bg-white p-4 sm:p-12 md:p-16 rounded-lg shadow-lg shadow-slate-500 border border-gray-300 flex flex-col md:flex-row items-center max-w-4xl w-full mx-4'>
           <div className='flex-shrink-0 mb-6 md:mb-0 md:mr-8'>
             <Image
               width={300}
@@ -100,9 +100,8 @@ const Detail = () => {
             </div>
           </div>
         </div>
-
         {selectedCountry.activities.length > 0 && (
-          <div className='mt-8 bg-[#8fa4cf81] p-6 rounded-lg shadow-md border border-black max-w-4xl w-full'>
+          <div className='mt-8 bg-[#8fa4cf81] p-6 rounded-lg shadow-md border border-black max-w-4xl w-full mx-4'>
             <h2 className='text-2xl font-bold mb-4'>Actividades:</h2>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
               {selectedCountry.activities.map((e) => (
@@ -125,22 +124,19 @@ const Detail = () => {
           </div>
         )}
       </div>
-
-      <div className='flex justify-center mt-8'>
+      <div className='flex flex-col items-center my-6'>
         <button
           onClick={() => setIsModalOpen(true)}
-          className='px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300'
+          className='px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300 mb-4'
         >
           Agregar Actividad
         </button>
+        <Link href='/home'>
+          <button className='px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition duration-300'>
+            Volver
+          </button>
+        </Link>
       </div>
-
-      <Link href='/home'>
-        <button className='mt-4 px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition duration-300'>
-          Volver
-        </button>
-      </Link>
-
       {isModalOpen && (
         <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md transition-opacity duration-300'>
           <div className='bg-white p-8 rounded-lg shadow-xl max-w-lg w-full transform transition-all scale-95'>
