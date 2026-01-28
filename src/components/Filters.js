@@ -47,7 +47,6 @@ const Filters = () => {
         <option value='Americas'>🌎 América</option>
         <option value='Oceania'>🌊 Oceanía</option>
       </select>
-
       <select
         value={activity}
         onChange={handleActivityChange}
@@ -57,7 +56,6 @@ const Filters = () => {
         <option value='act'>✅ Con actividades</option>
         <option value='noA'>❌ Sin actividades</option>
       </select>
-
       <select
         value={order}
         onChange={handleOrderChange}
@@ -69,7 +67,6 @@ const Filters = () => {
         <option value='pop-asc'>📈 Población (Ascendente)</option>
         <option value='pop-desc'>📉 Población (Descendente)</option>
       </select>
-
       <button
         onClick={resetFilters}
         className='bg-[#A98069] hover:bg-[#8C6A54] text-white font-semibold px-4 py-2 rounded-md transition-all shadow-md'
