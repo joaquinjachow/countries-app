@@ -29,11 +29,9 @@ const Home = () => {
     const filtered = countries.filter((country) =>
       country.name.toLowerCase().includes(term.toLowerCase())
     )
-
     if (filtered.length === 0) {
       alert('El país no existe')
     }
-
     setSearchTerm(term)
     setPag(1) // Reinicia la paginación al realizar una nueva búsqueda
   }
