@@ -8,7 +8,6 @@ const getCountries = async (req, res) => {
     try {
       const countriesWithActivities = await Country.find({})
         .populate('activities', 'name dificulty duration season')
-
       if (countriesWithActivities.length > 0) {
         return res.status(200).send(countriesWithActivities)
       } else {
@@ -23,7 +22,6 @@ const getCountries = async (req, res) => {
           area: country.area,
           population: country.population
         }))
-
         const createdCountries = await Country.insertMany(countriesData)
         const activities = await Activity.find({})
         for (const createdCountry of createdCountries) {
@@ -44,7 +42,6 @@ const getCountries = async (req, res) => {
     const countriesWithName = await Country.find({
       name: { $regex: new RegExp(name, 'i') }
     }).populate('activities', 'name dificulty duration season')
-
     return countriesWithName.length
       ? res.status(200).send(countriesWithName)
       : res.status(404).send('No existe ese País')
