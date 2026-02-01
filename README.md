@@ -1,40 +1,180 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🌍 Countries App
 
-## Getting Started
+Una aplicación web moderna para explorar países del mundo, crear actividades turísticas y gestionar información geográfica de manera interactiva.
 
-First, run the development server:
+![Countries App](https://img.shields.io/badge/Status-Active-brightgreen)
+![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black)
+![React](https://img.shields.io/badge/React-18-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.3.0-cyan)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📋 Tabla de Contenidos
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Características](#-características)
+- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
+- [Instalación](#-instalación)
+- [Uso](#-uso)
+- [API Endpoints](#-api-endpoints)
+- [Capturas de Pantalla](#-capturas-de-pantalla)
+- [Licencia](#-licencia)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## ✨ Características
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- **🗺️ Exploración de Países**: Navega por más de 250 países con información detallada
+- **🔍 Búsqueda Inteligente**: Busca países por nombre con filtrado en tiempo real
+- **🎯 Filtros Avanzados**: Filtra por continente, actividades y ordena por población o nombre
+- **🎭 Gestión de Actividades**: Crea y gestiona actividades turísticas para cada país
+- **📱 Diseño Responsivo**: Optimizado para dispositivos móviles y desktop
+- **⚡ Rendimiento**: Carga rápida con paginación eficiente
+- **🎨 UI Moderna**: Interfaz intuitiva con Tailwind CSS
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 🛠️ Tecnologías Utilizadas
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Frontend
+- **Next.js 14.0.4** - Framework React con SSR/SSG
+- **React 18** - Biblioteca de interfaz de usuario
+- **TypeScript 5** - Tipado estático para JavaScript
+- **Tailwind CSS 3.3.0** - Framework de CSS utilitario
+- **React Icons 5.0.1** - Iconografía moderna
+- **React Toastify 11.0.3** - Notificaciones elegantes
 
-## Learn More
+### Backend
+- **Express.js 4.18.2** - Framework web para Node.js
+- **MongoDB 6.4.0** - Base de datos NoSQL
+- **Mongoose 8.1.0** - ODM para MongoDB
+- **CORS 2.8.5** - Configuración de CORS
+- **Axios 1.6.7** - Cliente HTTP
 
-To learn more about Next.js, take a look at the following resources:
+### Gestión de Estado
+- **Zustand 4.5.1** - Librería de estado global ligera
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Herramientas de Desarrollo
+- **ESLint** - Linter para JavaScript/TypeScript
+- **Prettier** - Formateador de código
+- **Nodemon 3.0.3** - Auto-reload del servidor
+- **Concurrently 8.2.2** - Ejecución concurrente de scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 🚀 Instalación
 
-## Deploy on Vercel
+### Prerrequisitos
+- Node.js (versión 16 o superior)
+- MongoDB (local o MongoDB Atlas)
+- npm o yarn
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Pasos de Instalación
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. **Clona el repositorio**
+   ```bash
+   git clone https://github.com/tu-usuario/countries-app.git
+   cd countries-app
+   ```
+
+2. **Instala las dependencias**
+   ```bash
+   npm install
+   # o
+   yarn install
+   ```
+
+3. **Configura las variables de entorno**
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Edita `.env.local` con tu configuración:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/countries-app
+   PORT=3001
+   NEXT_PUBLIC_API_URL=http://localhost:3001
+   ```
+
+4. **Inicia MongoDB**
+   ```bash
+   # Si usas MongoDB local
+   mongod
+   
+   # O configura tu conexión a MongoDB Atlas
+   ```
+
+5. **Ejecuta la aplicación**
+   ```bash
+   npm start
+   # o
+   yarn start
+   ```
+
+La aplicación estará disponible en:
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:3001
+
+## 📖 Uso
+
+### Funcionalidades Principales
+
+1. **Explorar Países**
+   - Navega por la lista paginada de países
+   - Visualiza banderas, nombres y continentes
+   - Haz clic en cualquier país para ver detalles
+
+2. **Buscar Países**
+   - Usa la barra de búsqueda en el navbar
+   - Filtra por nombre del país
+   - Resultados en tiempo real
+
+3. **Filtrar y Ordenar**
+   - Filtra por continente (Asia, Europa, África, etc.)
+   - Ordena por nombre (A-Z, Z-A)
+   - Ordena por población (ascendente/descendente)
+   - Filtra países con/sin actividades
+
+4. **Gestionar Actividades**
+   - Ve detalles de un país
+   - Crea nuevas actividades turísticas
+   - Especifica dificultad, duración y temporada
+   - Visualiza todas las actividades del país
+
+## 🔗 API Endpoints
+
+### Países
+- `GET /api/countries` - Obtener todos los países
+- `GET /api/countries/:id` - Obtener país por ID
+- `GET /api/countries/search/:name` - Buscar países por nombre
+- `GET /api/countries/filter/continent/:continent` - Filtrar por continente
+
+### Actividades
+- `GET /api/activities` - Obtener todas las actividades
+- `POST /api/activities` - Crear nueva actividad
+- `GET /api/activities/country/:countryId` - Actividades de un país
+
+## 📱 Capturas de Pantalla
+
+### Landing Page
+![Landing Page](public/assets/Screen-Landing.png)
+
+### Lista de Países
+![Countries List](public/assets/Screen-home.png)
+
+### Detalles del País
+![Country Details](public/assets/Screen-detail.png)
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## 👨‍💻 Autor
+
+**Tu Nombre**
+- GitHub: [@joaquinjachow](https://github.com/joaquinjachow)
+- LinkedIn: [Joaquin Jachow](https://www.linkedin.com/in/joaquin-jachow/)
+- Email: joacojachow@hotmail.com
+
+## 🙏 Agradecimientos
+
+- [REST Countries API](https://restcountries.com/) - Datos de países
+- [React Icons](https://react-icons.github.io/react-icons/) - Iconografía
+- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS
+- [Next.js](https://nextjs.org/) - Framework React
+
+---
+
+⭐ Si te gusta este proyecto, ¡dale una estrella en GitHub!
